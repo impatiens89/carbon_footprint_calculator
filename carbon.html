@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="number"], input[type="radio"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .diet-options {
+            display: flex;
+            justify-content: space-between;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Carbon Footprint Calculator</h1>
+
+    <label for="light_usage">Electricity Usage (hours per day)</label>
+    <input type="number" id="light_usage" placeholder="Light (hrs)">
+    <input type="number" id="ac_usage" placeholder="AC (hrs)">
+    <input type="number" id="appliance_usage" placeholder="Appliances (hrs)">
+
+    <label for="transportation">Transportation (km per day)</label>
+    <input type="number" id="car_distance" placeholder="Car (km)">
+    <input type="number" id="bus_distance" placeholder="Bus (km)">
+    <input type="number" id="train_distance" placeholder="Train (km)">
+
+    <label for="waste_generation">Waste Generation (kg per day)</label>
+    <input type="number" id="waste" placeholder="Waste (kg)">
+
+    <label for="water_usage">Water Usage (liters per day)</label>
+    <input type="number" id="water_usage" placeholder="Water Usage (L)">
+
+    <label for="cooking_fuel">Cooking Fuel Usage (hours per day)</label>
+    <input type="number" id="cooking_fuel" placeholder="Cooking Fuel (hrs)">
+
+    <label>Diet Type</label>
+    <div class="diet-options">
+        <div>
+            <input type="radio" name="diet" value="Meat-based" checked> Meat-based
+        </div>
+        <div>
+            <input type="radio" name="diet" value="Vegetarian"> Vegetarian
+        </div>
+        <div>
+            <input type="radio" name="diet" value="Vegan"> Vegan
+        </div>
+    </div>
+
+    <button onclick="calculateFootprint()">Calculate</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function calculateFootprint() {
+        // Get input values
+        const lightUsage = parseFloat(document.getElementById("light_usage").value) * 0.1;
+        const acUsage = parseFloat(document.getElementById("ac_usage").value) * 1.5;
+        const applianceUsage = parseFloat(document.getElementById("appliance_usage").value) * 0.5;
+
+        const carDistance = parseFloat(document.getElementById("car_distance").value) * 0.2;
+        const busDistance = parseFloat(document.getElementById("bus_distance").value) * 0.05;
+        const trainDistance = parseFloat(document.getElementById("train_distance").value) * 0.03;
+
+        const waste = parseFloat(document.getElementById("waste").value) * 0.6;
+        const waterUsage = parseFloat(document.getElementById("water_usage").value) * 0.001;
+        const cookingFuel = parseFloat(document.getElementById("cooking_fuel").value) * 1.8;
+
+        const diet = document.querySelector('input[name="diet"]:checked').value;
+        let dietImpact = 0;
+        if (diet === "Meat-based") {
+            dietImpact = 8.2 / 365;
+        } else if (diet === "Vegetarian") {
+            dietImpact = 4.1 / 365;
+        } else {
+            dietImpact = 2.7 / 365;
+        }
+
+        // Calculate total footprint
+        const totalFootprint = lightUsage + acUsage + applianceUsage + carDistance + busDistance + trainDistance + waste + waterUsage + cookingFuel + dietImpact;
+
+        // Display result
+        document.getElementById("result").textContent = `Your estimated daily carbon footprint is: ${totalFootprint.toFixed(2)} kg CO2`;
+    }
+</script>
+
+</body>
+</html>
